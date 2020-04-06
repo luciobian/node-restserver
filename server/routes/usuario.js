@@ -10,7 +10,7 @@ app.get('/usuarios', function(req, res) {
     desde = Number(desde);
     let limite = req.query.limite || 5;
     limite = Number(limite);
-    Usuario.find({})
+    Usuario.find({}, 'name email role estado google')
         .skip(desde)
         .limit(limite)
         .exec((err, data) => {
