@@ -22,10 +22,14 @@ app.get('/usuarios', function(req, res) {
                     });
             };
 
-            res.json({
-                success: true,
-                data
+            Usuario.count({}, (err, count) => {
+                res.json({
+                    success: true,
+                    data,
+                    count
+                });
             });
+
         });
 });
 app.post('/usuarios', function(req, res) {
