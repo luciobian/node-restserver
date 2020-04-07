@@ -1,17 +1,16 @@
-require('../config/config');
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
 
+const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017'
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(require('./routes/usuario'));
 
 
-mongoose.connect(process.env.URLDB, {
+mongoose.connect(mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -21,4 +20,4 @@ mongoose.connect(process.env.URLDB, {
     console.log("DB online");
 });
 
-app.listen(process.env.PORT, () => console.log("Escuchando puerto", process.env.PORT));
+app.listen(process.env.PORT, () => console.log("Escuchando puerto", process.env.PORT || 3000));
