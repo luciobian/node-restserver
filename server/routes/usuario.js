@@ -10,7 +10,7 @@ app.get('/usuarios', function(req, res) {
     desde = Number(desde);
     let limite = req.query.limite || 5;
     limite = Number(limite);
-    Usuario.find({}, 'name email role estado google')
+    Usuario.find({ estado: true }, 'name email role estado google')
         .skip(desde)
         .limit(limite)
         .exec((err, data) => {
@@ -22,7 +22,7 @@ app.get('/usuarios', function(req, res) {
                     });
             };
 
-            Usuario.count({}, (err, count) => {
+            Usuario.count({ estado: true }, (err, count) => {
                 res.json({
                     success: true,
                     data,
@@ -78,8 +78,31 @@ app.put('/usuarios/:id', function(req, res) {
         });
     });
 });
-app.delete('/usuarios', function(req, res) {
-    res.json('DELETE');
+app.delete('/usuarios/:id', function(req, res) {
+    let id = req.params.id;
+
+    Usuario.findByIdAndUpdate(id, { estado: false }, { new: true }, (err, data) => {
+        if (err) {
+            return res.status(400)
+                .json({
+                    success: false,
+                    err
+                });
+        }
+
+        if (!data) {
+            return res.status(400)
+                .json({
+                    success: false,
+                    err: "Usuario no encontrado."
+                });
+        }
+
+        res.json({
+            success: true,
+            data
+        });
+    })
 });
 
 module.exports = app;
