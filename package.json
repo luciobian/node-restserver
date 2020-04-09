@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "env NODE_ENV=production nodemon server/server.js",
+        "start": "env NODE_ENV=production node server/server.js",
         "dev": "env NODE_ENV=dev nodemon server/server.js"
     },
     "author": "",
