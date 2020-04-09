@@ -20,7 +20,7 @@ const usuarioSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: [true, 'El password es necesario.']
     },
     img: {
         type: String,
