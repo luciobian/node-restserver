@@ -3,14 +3,22 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
 
-const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017'
+
+const dev = process.env.NODE_ENV !== "production";
+
+const dotenv = require('dotenv');
+
+const env = (dev) ? dotenv.config({ path: __dirname + '/.env.development' }) :
+    dotenv.config({ path: __dirname + '/.env' });
+
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(require('./routes/usuario'));
+app.use(require('./routes/routes'));
 
 
-mongoose.connect(mongoUri, {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -20,4 +28,4 @@ mongoose.connect(mongoUri, {
     console.log("DB online");
 });
 
-app.listen(process.env.PORT, () => console.log("Escuchando puerto", process.env.PORT || 3000));
+app.listen(process.env.PORT, () => console.log("Escuchando puerto", process.env.PORT));
