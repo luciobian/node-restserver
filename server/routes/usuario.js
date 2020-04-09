@@ -22,7 +22,7 @@ app.get('/usuarios', tokenVerification, function(req, res) {
                         err
                     });
             };
-            Usuario.count({ estado: true }, (err, count) => {
+            Usuario.countDocuments({ estado: true }, (err, count) => {
                 res.json({
                     success: true,
                     data,
